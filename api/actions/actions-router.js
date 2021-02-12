@@ -36,6 +36,16 @@ router.post('/', mw.validateAction, (req, res, next) => {
 });
 
 // 4 - PUT - /api/actions/:id - Returns the updated action as the body of the _response_
+router.put('/:id', mw.validateActionId, mw.validateAction, (req, res, next) => {
+    Actions.update(req.params.id, req.body)
+        .then((action) => {
+            // Working!
+            res.status(200).json(action);
+        })
+        .catch((error) => {
+            next(error);
+        })
+});
 
 // 5 - DELETE - /api/actions/:id - Returns no _response_ body
 
