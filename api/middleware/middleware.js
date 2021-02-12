@@ -12,6 +12,7 @@ function logger(req, res, next) {
 // description - String - Up to 128 characters long, required
 // notes - String - No size limit, required. Used to record additional notes or requirements to complete the action
 // completed - Boolean - Used to indicate if the action has been completed, not required
+
 // Validating Action with Action ID
 const validateActionId = async (req, res, next) => {
     const { id } = req.params;
@@ -33,12 +34,32 @@ const validateActionId = async (req, res, next) => {
     }
 }
 
-// Projects
+// Validate Action with required fields: project_id (must be id of existing project), description (128 chars limit), notes (No char limit)
+const validateAction = (req, res, next) => {
+    const { project_id, description, notes } = req.body;
+    if (!project_id || !description || !notes) {
+        // Working!
+        res.status(400).json({
+            message: "Required Fields: project_id, description, notes"
+        });
+    } else if (req.body.description.length > 128) {
+        // Working!
+        res.status(400).json({
+            message: "Max character length is 128 characters"
+        });
+    } else {
+        next();
+    }
+}
+
+
+// --------- PROJECTS MIDDLEWARES --------- //
 // name	- string - required
 // description - string - required
 // completed - boolean - not required
 
 module.exports = {
     logger,
-    validateActionId
+    validateActionId,
+    validateAction
 }
