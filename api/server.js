@@ -10,12 +10,11 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
-// Global middlewares
 server.use('/api/actions', actionsRouter);
 server.use('/api/projects', projectsRouter);
 
 server.get('/', mw.logger, (req, res) => {
-    res.send(console.log("Api lives here!"));
+    res.send(`<h2>"API lives here!"</h2>`);
 });
 
 module.exports = server;
