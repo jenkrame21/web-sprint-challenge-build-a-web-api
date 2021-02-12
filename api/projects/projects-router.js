@@ -25,7 +25,7 @@ router.get('/:id', mw.validateProjectId, (req, res) => {
 router.post('/', mw.validateProject, (req, res, next) => {
     Projects.insert(req.body)
         .then((project) => {
-            res.status(200).json(project);
+            res.status(201).json(project);
         })
         .catch((error) => {
             next(error);
@@ -44,7 +44,7 @@ router.put('/:id', mw.validateProjectId, mw.validateProject, (req, res, next) =>
 });
 
 // 5 - DELETE - /api/projects/:id - Returns no response body
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', mw.validateProjectId, (req, res, next) => {
     Projects.remove(req.params.id)
         .then(() => {
             res.status(200).json({

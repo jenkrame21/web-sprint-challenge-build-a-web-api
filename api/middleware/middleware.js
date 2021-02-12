@@ -14,7 +14,7 @@ const validateActionId = async (req, res, next) => {
     try {
         const action = await Actions.get(id);
         if (!action) {
-            res.status(400).json({
+            res.status(404).json({
                 messsage: `Action ID: ${id} does not exist`
             });
         } else {
@@ -52,7 +52,7 @@ const validateProjectId = async (req, res, next) => {
     try {
         const project = await Projects.get(id)
         if (!project) {
-            res.status(400).json({
+            res.status(404).json({
                 message: `Project ID: ${id} does not exist`
             })
         } else {
