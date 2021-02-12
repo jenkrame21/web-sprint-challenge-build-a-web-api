@@ -9,7 +9,6 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
     Actions.get()
         .then((actions) => {
-            // Working!
             res.status(200).json(actions);
         })
         .catch((error) => {
@@ -19,7 +18,6 @@ router.get('/', (req, res, next) => {
 
 // 2 - GET - /api/actions/:id - Returns an action with the given `id` as the body of the response
 router.get('/:id', mw.validateActionId, (req, res) => {
-    // Working!
     res.status(200).json(req.action);
 });
 
@@ -27,7 +25,6 @@ router.get('/:id', mw.validateActionId, (req, res) => {
 router.post('/', mw.validateAction, (req, res, next) => {
     Actions.insert(req.body)
         .then((action) => {
-            // Working!
             res.status(201).json(action);
         })
         .catch((error) => {
@@ -39,7 +36,6 @@ router.post('/', mw.validateAction, (req, res, next) => {
 router.put('/:id', mw.validateActionId, mw.validateAction, (req, res, next) => {
     Actions.update(req.params.id, req.body)
         .then((action) => {
-            // Working!
             res.status(200).json(action);
         })
         .catch((error) => {
@@ -51,10 +47,9 @@ router.put('/:id', mw.validateActionId, mw.validateAction, (req, res, next) => {
 router.delete('/:id', mw.validateActionId, (req, res, next) => {
     const { id } = req.params;
     Actions.remove(id)
-        .then((action) => {
-            // Working!
+        .then(() => {
             res.status(200).json({ 
-                message: `${action} has been terminated`
+                message: "Action has been removed"
             });
         })
         .catch((error) => {
