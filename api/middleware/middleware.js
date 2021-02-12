@@ -21,7 +21,7 @@ const validateActionId = async (req, res, next) => {
         if (!action) {
             // Working!
             res.status(400).json({
-                messsage: `No action with ID: ${id}`
+                messsage: `Action ID: ${id} does not exist`
             });
         } else {
             req.action = action;
@@ -45,7 +45,7 @@ const validateAction = (req, res, next) => {
     } else if (req.body.description.length > 128) {
         // Working!
         res.status(400).json({
-            message: "Max character length is 128 characters"
+            message: "Max character length in description is 128 characters"
         });
     } else {
         next();

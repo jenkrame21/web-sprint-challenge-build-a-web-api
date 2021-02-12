@@ -48,6 +48,19 @@ router.put('/:id', mw.validateActionId, mw.validateAction, (req, res, next) => {
 });
 
 // 5 - DELETE - /api/actions/:id - Returns no _response_ body
+router.delete('/:id', mw.validateActionId, (req, res, next) => {
+    const { id } = req.params;
+    Actions.remove(id)
+        .then((action) => {
+            // Working!
+            res.status(200).json({ 
+                message: `${action} has been terminated`
+            });
+        })
+        .catch((error) => {
+            next(error);
+        })
+});
 
 // ACTION Server Error Middleware
 router.use((err, req, res) => {
