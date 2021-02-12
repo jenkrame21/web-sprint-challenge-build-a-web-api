@@ -1,7 +1,7 @@
 const express = require('express');
 
 const Actions = require('./actions-model');
-// const mw = require('../middleware/middleware.js');
+const mw = require('../middleware/middleware.js');
 
 const router = express.Router();
 
@@ -9,6 +9,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
     Actions.get()
         .then((actions) => {
+            // Working!
             res.status(200).json(actions);
         })
         .catch((error) => {
@@ -16,8 +17,11 @@ router.get('/', (req, res, next) => {
         })
 });
 
-
 // 2 - GET - /api/actions/:id - Returns an action with the given `id` as the body of the _response_
+router.get('/:id', mw.validateActionId, (req, res, next) => {
+    // Working!
+    res.status(200).json(req.action);
+});
 
 // 3 - POST - /api/actions - Returns the newly created action as the body of the _response_
 

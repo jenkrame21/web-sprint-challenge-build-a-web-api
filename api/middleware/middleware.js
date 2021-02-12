@@ -18,6 +18,7 @@ const validateActionId = async (req, res, next) => {
     try {
         const action = await Actions.get(id);
         if (!action) {
+            // Working!
             res.status(400).json({
                 messsage: `No action with ID: ${id}`
             });
