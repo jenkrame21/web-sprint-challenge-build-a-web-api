@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
     Projects.get()
         .then((projects) => {
-            res.status(200).json(projects);
+            res.status(200).json(projects || []);
         })
         .catch((error) => {
             next(error);
@@ -61,7 +61,7 @@ router.get('/:id/actions', mw.validateProjectId, (req, res, next) => {
     const project_id = req.params.id;
     Projects.getProjectActions(project_id)
         .then((projectActions) => {
-            res.status(200).json(projectActions);
+            res.status(200).json(projectActions || []);
         })
         .catch((error) => {
             next(error);
