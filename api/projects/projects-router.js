@@ -1,6 +1,7 @@
 const express = require("express");
 
 const Projects = require("./projects-model.js");
+const Actions = require("../actions/actions-model.js");
 const mw = require("../middleware/middleware.js");
 
 const router = express.Router();
@@ -9,7 +10,6 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
     Projects.get()
         .then((projects) => {
-            // Working!
             res.status(200).json(projects);
         })
         .catch((error) => {
@@ -19,7 +19,6 @@ router.get('/', (req, res, next) => {
 
 // 2 - GET - /api/projects/:id - Returns a project with the given `id` as the body of the response
 router.get('/:id', mw.validateProjectId, (req, res) => {
-    // Working!
     res.status(200).json(req.project);
 });
 
@@ -27,7 +26,6 @@ router.get('/:id', mw.validateProjectId, (req, res) => {
 router.post('/', mw.validateProject, (req, res, next) => {
     Projects.insert(req.body)
         .then((project) => {
-            // Working!
             res.status(200).json(project);
         })
         .catch((error) => {
@@ -39,7 +37,6 @@ router.post('/', mw.validateProject, (req, res, next) => {
 router.put('/:id', mw.validateProjectId, mw.validateProject, (req, res, next) => {
     Projects.update(req.params.id, req.body)
         .then((project) => {
-            // Working!
             res.status(200).json(project);
         })
         .catch((error) => {
@@ -47,7 +44,7 @@ router.put('/:id', mw.validateProjectId, mw.validateProject, (req, res, next) =>
         })
 });
 
-// 5 - DELETE - /api/projects/:id - Returns no _response_ body
+// 5 - DELETE - /api/projects/:id - Returns no response body
 router.delete('/:id', (req, res, next) => {
     Projects.remove(req.params.id)
         .then(() => {
@@ -59,6 +56,18 @@ router.delete('/:id', (req, res, next) => {
             next(error);
         });
 })
+
+// 6 - GET - /api/projects/:id/actions Sends an array of actions (or an empty array) as the body of the response
+router.get('/:id/actions', mw.validateProjectId, (req, res, next) => {
+    const project_id = req.params.id;
+    Projects.getProjectActions(project_id)
+        .then((projectActions) => {
+            res.status(200).json(projectActions);
+        })
+        .catch((error) => {
+            next(error);
+        });
+});
 
 // PROJECT Server Error Middleware
 router.use((err, req, res) => {

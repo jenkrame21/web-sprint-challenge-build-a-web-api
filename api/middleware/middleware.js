@@ -14,7 +14,6 @@ const validateActionId = async (req, res, next) => {
     try {
         const action = await Actions.get(id);
         if (!action) {
-            // Working!
             res.status(400).json({
                 messsage: `Action ID: ${id} does not exist`
             });
@@ -33,12 +32,10 @@ const validateActionId = async (req, res, next) => {
 const validateAction = (req, res, next) => {
     const { project_id, description, notes } = req.body;
     if (!project_id || !description || !notes) {
-        // Working!
         res.status(400).json({
             message: "Required Fields: project_id, description, notes"
         });
     } else if (req.body.description.length > 128) {
-        // Working!
         res.status(400).json({
             message: "Max character length in description is 128 characters"
         });
@@ -73,7 +70,6 @@ const validateProjectId = async (req, res, next) => {
 const validateProject = (req, res, next) => {
     const { name, description } = req.body;
     if ( !name || !description ) {
-        // Working!
         res.status(400).json({
             message: "Required fields: name, description"
         });
